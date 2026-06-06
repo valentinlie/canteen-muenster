@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Theme tokens as RGB triplets so Tailwind can apply opacity via
+ * `rgb(var(--token) / <alpha-value>)`. Light values live on :root, dark
+ * overrides on .dark:root (NativeWind toggles the `dark` class on the root
+ * when the color scheme changes — see src/theme/theme.tsx).
+ *
+ * Palette: warm cream + deep avocado-green, with a warm amber accent.
+ */
+@layer base {
+  :root {
+    --bg: 246 241 232; /* warm cream */
+    --surface: 255 253 249; /* near-white, slightly warm cards */
+    --surface-2: 238 231 219; /* chips / inset rows */
+    --border: 228 220 206;
+
+    --primary: 16 107 90; /* deep avocado green */
+    --primary-press: 11 84 71;
+    --on-primary: 255 255 255;
+
+    --accent: 221 130 49; /* warm amber */
+    --on-accent: 255 255 255;
+
+    --header: 16 107 90; /* colored app bar */
+    --on-header: 244 240 232;
+    --on-header-muted: 173 205 196;
+
+    --text: 28 27 24;
+    --text-muted: 92 86 78;
+    --text-faint: 150 142 130;
+  }
+
+  .dark:root {
+    --bg: 20 21 24; /* warm-tinted charcoal */
+    --surface: 31 33 37;
+    --surface-2: 44 47 52;
+    --border: 54 58 64;
+
+    --primary: 52 197 158; /* brighter green for dark surfaces */
+    --primary-press: 40 168 134;
+    --on-primary: 6 24 19;
+
+    --accent: 240 168 84;
+    --on-accent: 24 16 4;
+
+    --header: 28 31 35;
+    --on-header: 236 238 235;
+    --on-header-muted: 150 158 160;
+
+    --text: 235 237 233;
+    --text-muted: 166 169 163;
+    --text-faint: 122 126 122;
+  }
+}
