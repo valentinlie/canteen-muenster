@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { View } from "react-native";
 
-import { useTheme } from "@/theme/theme";
+import { useTheme } from "@/theme";
 import type { FoodTag } from "@/utils/notes";
 
 type IconName = keyof typeof MaterialCommunityIcons.glyphMap;
@@ -29,7 +29,8 @@ function lighten([r, g, b]: [number, number, number], amount: number): string {
 }
 
 export function FoodTagBadge({ tag }: { tag: FoodTag }) {
-  const { isDark } = useTheme();
+  const { scheme } = useTheme();
+  const isDark = scheme === "dark";
   const style = TAG_STYLES[tag];
   const [r, g, b] = style.rgb;
 
@@ -39,8 +40,14 @@ export function FoodTagBadge({ tag }: { tag: FoodTag }) {
   return (
     <View
       accessibilityLabel={style.label}
-      style={{ backgroundColor: bg }}
-      className="h-8 w-8 items-center justify-center rounded-full"
+      style={{
+        backgroundColor: bg,
+        height: 32,
+        width: 32,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 999,
+      }}
     >
       <MaterialCommunityIcons name={style.icon} size={18} color={fg} />
     </View>
@@ -50,7 +57,14 @@ export function FoodTagBadge({ tag }: { tag: FoodTag }) {
 export function FoodTagRow({ tags }: { tags: FoodTag[] }) {
   if (tags.length === 0) return null;
   return (
-    <View className="mt-3 flex-row flex-wrap gap-2">
+    <View
+      style={{
+        marginTop: 12,
+        flexDirection: "row",
+        flexWrap: "wrap",
+        gap: 8,
+      }}
+    >
       {tags.map((tag) => (
         <FoodTagBadge key={tag} tag={tag} />
       ))}

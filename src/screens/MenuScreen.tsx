@@ -18,6 +18,7 @@ import { StateView } from "@/components/StateView";
 import { MUENSTER_CANTEENS } from "@/constants/canteens";
 import { useCanteenMenu } from "@/hooks/useCanteenMenu";
 import { SettingsScreen } from "@/screens/SettingsScreen";
+import { useTheme } from "@/theme";
 import { friendlyDateLabel } from "@/utils/format";
 import { groupByCategory } from "@/utils/menu";
 
@@ -34,41 +35,91 @@ export function MenuScreen() {
 
   const groups = useMemo(() => groupByCategory(meals), [meals]);
 
+  const { colors, fontSize } = useTheme();
+
   return (
-    <View className="flex-1 bg-bg">
-      <SafeAreaView className="flex-1 bg-bg" edges={["top"]}>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
+      <SafeAreaView
+        style={{ flex: 1, backgroundColor: colors.background }}
+        edges={["top"]}
+      >
         {/* App bar */}
-        <View className="flex-row items-start justify-between bg-header px-4 pb-4 pt-2">
-          <View className="flex-1">
-            <Text className="text-xs font-medium uppercase tracking-widest text-header-muted">
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+            backgroundColor: colors.header,
+            paddingHorizontal: 16,
+            paddingBottom: 16,
+            paddingTop: 8,
+          }}
+        >
+          <View style={{ flex: 1 }}>
+            <Text
+              style={{
+                fontSize: fontSize.xs,
+                fontWeight: "500",
+                textTransform: "uppercase",
+                letterSpacing: 1,
+                color: colors.onHeaderMuted,
+              }}
+            >
               Mensa Münster
             </Text>
-            <Text className="mt-0.5 text-2xl font-bold text-header-on">
+            <Text
+              style={{
+                marginTop: 2,
+                fontSize: 24,
+                fontWeight: "700",
+                color: colors.onHeader,
+              }}
+            >
               {canteen.name}
             </Text>
-            {selectedDate && (
-              <Text className="mt-0.5 text-sm text-header-muted">
-                {friendlyDateLabel(selectedDate)}
-              </Text>
-            )}
+            {/* Always rendered so the header keeps a constant height; a blank
+                placeholder holds the line while a new canteen's days load. */}
+            <Text
+              style={{
+                marginTop: 2,
+                fontSize: fontSize.sm,
+                color: colors.onHeaderMuted,
+              }}
+            >
+              {selectedDate ? friendlyDateLabel(selectedDate) : " "}
+            </Text>
           </View>
 
           <Pressable
             onPress={() => setSettingsOpen(true)}
             hitSlop={8}
             accessibilityLabel="Einstellungen"
-            className="h-10 w-10 items-center justify-center rounded-full active:opacity-70"
+            style={({ pressed }) => ({
+              height: 40,
+              width: 40,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 999,
+              opacity: pressed ? 0.7 : 1,
+            })}
           >
             <MaterialCommunityIcons
               name="cog-outline"
               size={24}
-              color="rgb(244,240,232)"
+              color={colors.onHeader}
             />
           </Pressable>
         </View>
 
         {/* Canteen chips */}
-        <View className="border-b border-border bg-surface py-3">
+        <View
+          style={{
+            borderBottomWidth: 1,
+            borderBottomColor: colors.border,
+            backgroundColor: colors.surface,
+            paddingVertical: 12,
+          }}
+        >
           <CanteenSelector
             canteens={MUENSTER_CANTEENS}
             selectedId={canteenId}
@@ -78,7 +129,7 @@ export function MenuScreen() {
 
         {/* Date chips */}
         {days.length > 0 && (
-          <View className="bg-bg py-3">
+          <View style={{ backgroundColor: colors.background, paddingVertical: 12 }}>
             <DateSelector
               days={days}
               selectedDate={selectedDate}
@@ -98,8 +149,8 @@ export function MenuScreen() {
 
       {/* Settings is an in-tree overlay rather than a native <Modal>: a Modal
           renders in a separate native view hierarchy, which breaks safe-area
-          inset measurement (header slides under the status bar) and prevents
-          NativeWind's color-scheme change from re-rendering it in place. */}
+          inset measurement (header slides under the status bar) and detaches it
+          from the theme context, so it wouldn't re-render on scheme changes. */}
       <SettingsOverlay
         visible={settingsOpen}
         onClose={() => setSettingsOpen(false)}

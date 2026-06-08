@@ -1,5 +1,6 @@
 import { Text, View } from "react-native";
 
+import { useTheme } from "@/theme";
 import type { MealGroup } from "@/utils/menu";
 import { MealCard } from "./MealCard";
 
@@ -8,9 +9,20 @@ interface CategorySectionProps {
 }
 
 export function CategorySection({ group }: CategorySectionProps) {
+  const { colors, spacing, fontSize } = useTheme();
   return (
-    <View className="mb-5">
-      <Text className="mb-2.5 px-1 text-xs font-bold uppercase tracking-widest text-ink-muted">
+    <View style={{ marginBottom: 20 }}>
+      <Text
+        style={{
+          marginBottom: 10,
+          paddingHorizontal: spacing.xs,
+          fontSize: fontSize.xs,
+          fontWeight: "700",
+          textTransform: "uppercase",
+          letterSpacing: 1,
+          color: colors.textMuted,
+        }}
+      >
         {group.category}
       </Text>
       {group.meals.map((meal) => (

@@ -1,7 +1,7 @@
 # Mensa Münster 🍽️
 
 An ultra-clean, ad-free menu app for the seven student canteens in Münster.
-Built with **Expo (React Native)**, **TypeScript**, and **NativeWind** (Tailwind).
+Built with **Expo (React Native)** and **TypeScript**, with a lightweight typed design-token theming system (no styling dependencies).
 Data comes directly from the public **[OpenMensa API v2](https://docs.openmensa.org/api/v2/)** — no backend, no tracking, no ads.
 
 ## Features

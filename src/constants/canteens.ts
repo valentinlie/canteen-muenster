@@ -16,10 +16,10 @@ export interface Canteen {
 
 export const MUENSTER_CANTEENS: Canteen[] = [
   {
-    id: 1169,
-    name: "Mensa Am Ring",
-    shortName: "Am Ring",
-    address: "Domagkstraße 61, 48149 Münster",
+    id: 1213,
+    name: "Mensa Bispinghof",
+    shortName: "Bispinghof",
+    address: "Bispinghof 9, 48143 Münster",
   },
   {
     id: 1170,
@@ -28,22 +28,16 @@ export const MUENSTER_CANTEENS: Canteen[] = [
     address: "Bismarckallee 11, 48151 Münster",
   },
   {
-    id: 1213,
-    name: "Mensa Bispinghof",
-    shortName: "Bispinghof",
-    address: "Bispinghof 9, 48143 Münster",
-  },
-  {
     id: 1171,
     name: "Mensa Da Vinci",
     shortName: "Da Vinci",
     address: "Leonardo-Campus 8, 48149 Münster",
   },
   {
-    id: 1214,
-    name: "Bistro Oeconomicum",
-    shortName: "Oeconomicum",
-    address: "Universitätsstraße 14–16, 48143 Münster",
+    id: 1169,
+    name: "Mensa Am Ring",
+    shortName: "Am Ring",
+    address: "Domagkstraße 61, 48149 Münster",
   },
   {
     id: 1172,
@@ -52,8 +46,14 @@ export const MUENSTER_CANTEENS: Canteen[] = [
     address: "Corrensstraße 25, 48149 Münster",
   },
   {
+    id: 1214,
+    name: "Bistro Oeconomicum",
+    shortName: "Oeconomicum",
+    address: "Universitätsstraße 14–16, 48143 Münster",
+  },
+  {
     id: 1238,
-    name: "Bistro Katholische Hochschule",
+    name: "Bistro Kath. Hochschule",
     shortName: "Kath. Hochschule",
     address: "Piusallee 89, 48143 Münster",
   },

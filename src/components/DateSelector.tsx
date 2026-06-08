@@ -1,6 +1,7 @@
 import { Pressable, ScrollView, Text, View } from "react-native";
 
 import type { Day } from "@/services/openmensa";
+import { useTheme } from "@/theme";
 import { shortDateLabel } from "@/utils/format";
 
 interface DateSelectorProps {
@@ -14,11 +15,12 @@ export function DateSelector({
   selectedDate,
   onSelect,
 }: DateSelectorProps) {
+  const { colors, radius, spacing, fontSize } = useTheme();
   return (
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{ paddingHorizontal: 16, gap: 8 }}
+      contentContainerStyle={{ paddingHorizontal: spacing.lg, gap: spacing.sm }}
     >
       {days.map((day) => {
         const active = day.date === selectedDate;
@@ -27,22 +29,35 @@ export function DateSelector({
           <Pressable
             key={day.date}
             onPress={() => onSelect(day.date)}
-            className={`min-w-[52px] items-center rounded-xl px-3 py-2 ${
-              active ? "bg-accent" : "border border-border bg-surface"
-            }`}
+            style={{
+              minWidth: 52,
+              alignItems: "center",
+              borderRadius: radius.md,
+              paddingHorizontal: spacing.md,
+              paddingVertical: spacing.sm,
+              backgroundColor: active ? colors.accent : colors.surface,
+              borderWidth: active ? 0 : 1,
+              borderColor: colors.border,
+            }}
           >
             <Text
-              className={`text-[11px] font-semibold uppercase ${
-                active ? "text-accent-on/80" : "text-ink-faint"
-              }`}
+              style={{
+                fontSize: 11,
+                fontWeight: "600",
+                textTransform: "uppercase",
+                color: active ? colors.onAccent : colors.textFaint,
+                opacity: active ? 0.8 : 1,
+              }}
             >
               {weekday}
             </Text>
-            <View className="h-0.5" />
+            <View style={{ height: 2 }} />
             <Text
-              className={`text-base font-bold ${
-                active ? "text-accent-on" : "text-ink"
-              }`}
+              style={{
+                fontSize: fontSize.md,
+                fontWeight: "700",
+                color: active ? colors.onAccent : colors.text,
+              }}
             >
               {dayNum}
             </Text>

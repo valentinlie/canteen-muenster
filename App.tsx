@@ -1,11 +1,9 @@
-import "./global.css";
-
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { MenuScreen } from "@/screens/MenuScreen";
 import { PriceCategoryProvider } from "@/settings/priceCategory";
-import { ThemeProvider } from "@/theme/theme";
+import { ThemeProvider } from "@/theme";
 
 export default function App() {
   return (

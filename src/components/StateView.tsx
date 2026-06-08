@@ -1,6 +1,6 @@
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 
-import { useTheme } from "@/theme/theme";
+import { useTheme } from "@/theme";
 
 interface StateViewProps {
   kind: "loading" | "empty" | "error";
@@ -16,22 +16,45 @@ const EMOJI: Record<StateViewProps["kind"], string> = {
 };
 
 export function StateView({ kind, title, message, onRetry }: StateViewProps) {
-  const { isDark } = useTheme();
-  const spinner = isDark ? "rgb(52,197,158)" : "rgb(16,107,90)";
+  const { colors, radius, spacing, fontSize } = useTheme();
 
   return (
-    <View className="flex-1 items-center justify-center px-10 py-20">
+    <View
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        paddingHorizontal: 40,
+        paddingVertical: 80,
+      }}
+    >
       {kind === "loading" ? (
-        <ActivityIndicator size="large" color={spinner} />
+        <ActivityIndicator size="large" color={colors.primary} />
       ) : (
-        <Text className="text-4xl">{EMOJI[kind]}</Text>
+        <Text style={{ fontSize: 36 }}>{EMOJI[kind]}</Text>
       )}
 
-      <Text className="mt-4 text-center text-base font-semibold text-ink">
+      <Text
+        style={{
+          marginTop: spacing.lg,
+          textAlign: "center",
+          fontSize: fontSize.md,
+          fontWeight: "600",
+          color: colors.text,
+        }}
+      >
         {title}
       </Text>
       {message && (
-        <Text className="mt-1.5 text-center text-sm leading-relaxed text-ink-muted">
+        <Text
+          style={{
+            marginTop: 6,
+            textAlign: "center",
+            fontSize: fontSize.sm,
+            lineHeight: 23,
+            color: colors.textMuted,
+          }}
+        >
           {message}
         </Text>
       )}
@@ -39,9 +62,22 @@ export function StateView({ kind, title, message, onRetry }: StateViewProps) {
       {onRetry && (
         <Pressable
           onPress={onRetry}
-          className="mt-5 rounded-full bg-primary px-6 py-2.5 active:opacity-80"
+          style={({ pressed }) => ({
+            marginTop: 20,
+            borderRadius: radius.pill,
+            backgroundColor: colors.primary,
+            paddingHorizontal: spacing.xl,
+            paddingVertical: 10,
+            opacity: pressed ? 0.8 : 1,
+          })}
         >
-          <Text className="text-sm font-semibold text-on-primary">
+          <Text
+            style={{
+              fontSize: fontSize.sm,
+              fontWeight: "600",
+              color: colors.onPrimary,
+            }}
+          >
             Erneut versuchen
           </Text>
         </Pressable>
