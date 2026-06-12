@@ -15,7 +15,7 @@ import { CanteenSelector } from "@/components/CanteenSelector";
 import { CategorySection } from "@/components/CategorySection";
 import { DateSelector } from "@/components/DateSelector";
 import { StateView } from "@/components/StateView";
-import { MUENSTER_CANTEENS } from "@/constants/canteens";
+import { MUENSTER_CANTEENS, servingInfoForDate } from "@/constants/canteens";
 import { useCanteenMenu } from "@/hooks/useCanteenMenu";
 import { SettingsScreen } from "@/screens/SettingsScreen";
 import { useTheme } from "@/theme";
@@ -34,6 +34,11 @@ export function MenuScreen() {
     useCanteenMenu(canteenId);
 
   const groups = useMemo(() => groupByCategory(meals), [meals]);
+
+  const serving = useMemo(
+    () => (selectedDate ? servingInfoForDate(canteen, selectedDate) : null),
+    [canteen, selectedDate],
+  );
 
   const { colors, fontSize } = useTheme();
 
@@ -88,6 +93,31 @@ export function MenuScreen() {
             >
               {selectedDate ? friendlyDateLabel(selectedDate) : " "}
             </Text>
+
+            {/* Serving hours for the selected day. Likewise always rendered to
+                keep the header height stable across canteen/day changes. */}
+            <View
+              style={{
+                marginTop: 4,
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 4,
+              }}
+            >
+              <MaterialCommunityIcons
+                name="clock-outline"
+                size={fontSize.sm}
+                color={colors.onHeaderMuted}
+              />
+              <Text style={{ fontSize: fontSize.sm, color: colors.onHeaderMuted }}>
+                {!serving
+                  ? " "
+                  : serving.window
+                    ? `Ausgabe ${serving.window.start}–${serving.window.end} Uhr` +
+                      (serving.isBreak ? " · Ferien" : "")
+                    : "Keine Speisenausgabe" + (serving.isBreak ? " · Ferien" : "")}
+              </Text>
+            </View>
           </View>
 
           <Pressable
