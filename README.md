@@ -6,11 +6,14 @@ Data comes directly from the public **[OpenMensa API v2](https://docs.openmensa.
 
 ## Features
 
-- **All 7 Münster canteens** — Am Ring, Aasee, Bispinghof, Da Vinci, Oeconomicum, Denkpause, Kath. Hochschule.
+- **All 7 Münster canteens** — Bispinghof, Aasee, Da Vinci, Am Ring, Denkpause, Oeconomicum, Kath. Hochschule.
 - **Clean menu cards grouped by category** (Hauptkomponenten, Beilagen, …) in a Material-inspired layout.
-- **Student prices only**, formatted in euros (`3,10 €`).
+- **Serving hours in the header** — the day's "Ausgabezeiten" (incl. a "Ferien" hint when the lecture-free schedule applies).
+- **Day picker** showing the canteen's upcoming serving days, with today's chip marked **Heute**.
 - **Smart diet badges** — `vegan` / `vegetarisch` notes become green tags and allergens are summarised in a compact line. Empty and noisy notes are filtered out.
-- **Day picker** showing the canteen's upcoming serving days.
+- **Settings sheet** with:
+  - **Appearance** — System / Light / Dark theme.
+  - **Price category** — Studierende or Gäste, formatted in euros (`3,10 €`); the choice is persisted.
 
 ## Getting started
 
@@ -25,15 +28,19 @@ Other scripts: `pnpm ios`, `pnpm android`, `pnpm web`.
 
 ```
 src/
-  constants/canteens.ts     # the 7 Münster canteens (pinned OpenMensa IDs)
+  constants/canteens.ts      # the 7 Münster canteens (pinned IDs + serving hours)
   services/openmensa.ts      # typed OpenMensa API v2 client (days + meals)
   hooks/useCanteenMenu.ts    # loads days + meals, handles loading/error/retry
+  settings/priceCategory.tsx # price-tier preference (Studierende/Gäste), persisted
+  theme/                     # typed design tokens + ThemeProvider (light/dark/system)
   utils/
     notes.ts                 # parses `notes[]` → diet badges / eco / allergens
     menu.ts                  # groups meals by category
     format.ts                # German date & price formatting
-  components/                # Badge, MealCard, CategorySection, selectors, StateView
-  screens/MenuScreen.tsx     # main screen
+  components/                # FoodTagBadge, MealCard, CategorySection, selectors, StateView
+  screens/
+    MenuScreen.tsx           # main screen (header, selectors, menu list)
+    SettingsScreen.tsx       # appearance + price-category settings sheet
 ```
 
 ## How the data is fetched
@@ -44,4 +51,6 @@ The app only ever calls two OpenMensa endpoints:
 - `GET /canteens/{id}/days/{date}/meals` — the meals for the selected day.
 
 The canteen IDs are pinned in `src/constants/canteens.ts`, so the app never
-downloads the full global canteen list.
+downloads the full global canteen list. Serving hours aren't exposed by
+OpenMensa either, so they're maintained by hand in the same file from the
+Studierendenwerk Münster "Ausgabezeiten".
