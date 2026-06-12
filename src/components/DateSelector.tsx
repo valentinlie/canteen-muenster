@@ -2,7 +2,7 @@ import { Pressable, ScrollView, Text, View } from "react-native";
 
 import type { Day } from "@/services/openmensa";
 import { useTheme } from "@/theme";
-import { shortDateLabel } from "@/utils/format";
+import { shortDateLabel, todayISO } from "@/utils/format";
 
 interface DateSelectorProps {
   days: Day[];
@@ -16,6 +16,7 @@ export function DateSelector({
   onSelect,
 }: DateSelectorProps) {
   const { colors, radius, spacing, fontSize } = useTheme();
+  const today = todayISO();
   return (
     <ScrollView
       horizontal
@@ -24,6 +25,7 @@ export function DateSelector({
     >
       {days.map((day) => {
         const active = day.date === selectedDate;
+        const isToday = day.date === today;
         const { weekday, day: dayNum } = shortDateLabel(day.date);
         return (
           <Pressable
@@ -49,7 +51,7 @@ export function DateSelector({
                 opacity: active ? 0.8 : 1,
               }}
             >
-              {weekday}
+              {isToday ? "Heute" : weekday}
             </Text>
             <View style={{ height: 2 }} />
             <Text

@@ -19,7 +19,6 @@ import { MUENSTER_CANTEENS, servingInfoForDate } from "@/constants/canteens";
 import { useCanteenMenu } from "@/hooks/useCanteenMenu";
 import { SettingsScreen } from "@/screens/SettingsScreen";
 import { useTheme } from "@/theme";
-import { friendlyDateLabel } from "@/utils/format";
 import { groupByCategory } from "@/utils/menu";
 
 export function MenuScreen() {
@@ -82,19 +81,7 @@ export function MenuScreen() {
             >
               {canteen.name}
             </Text>
-            {/* Always rendered so the header keeps a constant height; a blank
-                placeholder holds the line while a new canteen's days load. */}
-            <Text
-              style={{
-                marginTop: 2,
-                fontSize: fontSize.sm,
-                color: colors.onHeaderMuted,
-              }}
-            >
-              {selectedDate ? friendlyDateLabel(selectedDate) : " "}
-            </Text>
-
-            {/* Serving hours for the selected day. Likewise always rendered to
+            {/* Serving hours for the selected day. Always rendered to
                 keep the header height stable across canteen/day changes. */}
             <View
               style={{
